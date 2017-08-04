@@ -17,6 +17,8 @@ pipeline {
           "Build WebLogic": {
             dir(path: 'OracleWebLogic/dockerfiles') {
               sh 'if [ ! -f $SW_VERSION/$SW_FILE ]; then cp "$SW_DIR/$SW_FILE" $SW_VERSION/$SW_FILE; fi'
+              sh 'docker pull localhost:5000/oracle/serverjre:8'
+              sh 'docker tag localhost:5000/oracle/serverjre:8 oracle/serverjre:8 '
               sh 'sudo ./buildDockerImage.sh -v $SW_VERSION -g -s'
               sh 'docker tag oracle/weblogic:$SW_VERSION-generic localhost:5000/oracle/weblogic:$SW_VERSION-generic'
               sh 'docker push localhost:5000/oracle/weblogic$SW_VERSION-generic'
@@ -31,6 +33,8 @@ pipeline {
           "CleanUp WebLogic": {
             sh 'docker rmi --force localhost:5000/oracle/weblogic:$SW_VERSION-generic'
             sh 'docker rmi --force oracle/weblogic:$SW_VERSION-generic'
+            sh 'docker rmi --force localhost:5000/oracle/serverjre:8'
+            sh 'docker rmi --force oracle/serverjre:8'
           }
         )
       }
