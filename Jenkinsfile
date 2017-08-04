@@ -21,7 +21,7 @@ pipeline {
               sh 'docker tag localhost:5000/oracle/serverjre:8 oracle/serverjre:8 '
               sh 'sudo ./buildDockerImage.sh -v $SW_VERSION -g -s'
               sh 'docker tag oracle/weblogic:$SW_VERSION-generic localhost:5000/oracle/weblogic:$SW_VERSION-generic'
-              sh 'docker push localhost:5000/oracle/weblogic$SW_VERSION-generic'
+              sh 'docker push localhost:5000/oracle/weblogic:$SW_VERSION-generic'
             }
           }
         )
