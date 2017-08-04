@@ -16,7 +16,7 @@ pipeline {
         parallel(
           "Build WebLogic": {
             dir(path: 'OracleWebLogic/dockerfiles') {
-              sh 'if [ ! -f $SW_VERSION/$SW_FILE ]; then cp "$SW_DIR/WebLogic/$SW_FILE" $SW_VERSION/$SW_FILE; fi'
+              sh 'if [ ! -f $SW_VERSION/$SW_FILE ]; then cp "$SW_DIR/$SW_FILE" $SW_VERSION/$SW_FILE; fi'
               sh 'sudo ./buildDockerImage.sh -v $SW_VERSION -g'
               sh 'docker tag oracle/weblogic:$SW_VERSION-generic localhost:5000/oracle/weblogic:$SW_VERSION-generic'
               sh 'docker push localhost:5000/oracle/weblogic$SW_VERSION-generic'
