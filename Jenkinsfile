@@ -47,7 +47,7 @@ pipeline {
   }
   environment {
     SW_VERSION = '12.2.1.4'
-    SW_FILE = 'fmw_12.2.1.4.0_wls_Disk1_1of1.zip'
+    SW_FILE = 'fmw_12.2.1.4.0_wls_lite_Disk1_1of1.zip'
     SW_DIR = '/software/Oracle/WebLogic'
   }
 }
