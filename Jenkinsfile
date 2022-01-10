@@ -1,21 +1,26 @@
 pipeline {
   agent {
     node {
-      label 'localhost_vagrant'
+      label 'docker_in_docker'
     }
-
+  }
+  options {
+    buildDiscarder logRotator(numToKeepStr: '1')
   }
   stages {
     stage('Get Oracle Docker Sources') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: 'origin/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 0, noTags: true, reference: '', shallow: false, timeout: 30]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'e7677693-d5e6-463f-b6d4-597e0fb91c3f', url: 'https://github.com/oracle/docker-images.git']]])
+        dir ('oracle') {
+          git branch: 'main', credentialsId: 'github_id', url: 'https://github.com/oracle/docker-images.git'
+        }
+        sh 'ls -la'
       }
     }
     stage('Build Oracle Docker Images') {
       steps {
         parallel(
           "Build WebLogic": {
-            dir(path: 'OracleWebLogic/dockerfiles') {
+            dir(path: 'oracle/OracleWebLogic/dockerfiles') {
               sh 'if [ ! -f $SW_VERSION/$SW_FILE ]; then cp "$SW_DIR/$SW_FILE" $SW_VERSION/$SW_FILE; fi'
               sh 'docker pull localhost:5000/oracle/serverjre:8'
               sh 'docker tag localhost:5000/oracle/serverjre:8 oracle/serverjre:8 '
