@@ -24,7 +24,7 @@ pipeline {
               sh 'if [ ! -f $SW_VERSION/$SW_FILE ]; then cp "$SW_DIR/$SW_FILE" $SW_VERSION/$SW_FILE; fi'
               sh 'docker pull localhost:5000/oracle/serverjre:8'
               sh 'docker tag localhost:5000/oracle/serverjre:8 oracle/serverjre:8 '
-              sh 'sudo ./buildDockerImage.sh -v $SW_VERSION -g -s'
+              sh './buildDockerImage.sh -v $SW_VERSION -g -s'
               sh 'docker tag oracle/weblogic:$SW_VERSION-generic localhost:5000/oracle/weblogic:$SW_VERSION-generic'
               sh 'docker push localhost:5000/oracle/weblogic:$SW_VERSION-generic'
             }
@@ -46,8 +46,8 @@ pipeline {
     }
   }
   environment {
-    SW_VERSION = '12.2.1.3'
-    SW_FILE = 'fmw_12.2.1.3.0_wls_Disk1_1of1.zip'
+    SW_VERSION = '12.2.1.4'
+    SW_FILE = 'fmw_12.2.1.4.0_wls_Disk1_1of1'
     SW_DIR = '/software/Oracle/WebLogic'
   }
 }
