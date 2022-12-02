@@ -7,6 +7,9 @@ pipeline {
   options {
     buildDiscarder logRotator(numToKeepStr: '1')
   }
+  triggers {
+    upstream 'tkleiber/com.oracle.docker.images.oracle.oracle.serverjre/master'
+  }
   stages {
     stage('Get Oracle Docker Sources') {
       steps {
